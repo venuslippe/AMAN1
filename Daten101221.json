@@ -1,0 +1,998 @@
+[
+    {
+        "id": "59b47d7d6ec7f26b",
+        "type": "tab",
+        "label": "Daten aus ForCam in Json 101221",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c8d6e06fc84b73ca",
+        "type": "http request",
+        "z": "59b47d7d6ec7f26b",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://fcfhws.forcam.university/ffauth/oauth2.0/accessToken?client_id=GRUPPE4&client_secret=2g4Wt9UP6B&grant_type=client_credentials&scope=read%20write",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 230,
+        "y": 180,
+        "wires": [
+            [
+                "1f92fbe114d4d520"
+            ]
+        ]
+    },
+    {
+        "id": "959df5f12f2ff10a",
+        "type": "debug",
+        "z": "59b47d7d6ec7f26b",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 550,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "1f92fbe114d4d520",
+        "type": "json",
+        "z": "59b47d7d6ec7f26b",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 390,
+        "y": 180,
+        "wires": [
+            [
+                "959df5f12f2ff10a",
+                "a9c85b30726b4557"
+            ]
+        ]
+    },
+    {
+        "id": "37f473d2acdef738",
+        "type": "comment",
+        "z": "59b47d7d6ec7f26b",
+        "name": "Erst Accesstokens schicken lassen...",
+        "info": "",
+        "x": 170,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "9f9836c6ef0cf8cb",
+        "type": "debug",
+        "z": "59b47d7d6ec7f26b",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 810,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "a9c85b30726b4557",
+        "type": "function",
+        "z": "59b47d7d6ec7f26b",
+        "name": "Add HTTP headers",
+        "func": "var custom = \"Bearer \";\n\n//var custom =\"\";\ncustom += msg.payload.access_token; \n\nmsg.payload ={};\nmsg.responseUrl={};\nmsg.responseCookies={};\nmsg.redirectList={};\n\nmsg.url = \"https://fcfhws.forcam.university/ffwebservices/customized/v3/AVODetailsRuesten-WS/APL-TT/?limit=100&formatted=true&timeZoneId=UTC&workplace=6D108A3FD51942329C76D58B34BBC594&timeType=DAY&past=1&operationPhase=2\";\nmsg.headers = {\n    \"Authorization\" : custom,\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 220,
+        "wires": [
+            [
+                "9f9836c6ef0cf8cb",
+                "d243a1c442823496"
+            ]
+        ]
+    },
+    {
+        "id": "d243a1c442823496",
+        "type": "http request",
+        "z": "59b47d7d6ec7f26b",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 830,
+        "y": 240,
+        "wires": [
+            [
+                "74226bd877a85b05",
+                "5035804fa0da6fe4"
+            ]
+        ]
+    },
+    {
+        "id": "74226bd877a85b05",
+        "type": "debug",
+        "z": "59b47d7d6ec7f26b",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1050,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "5bb957a1a8bc727e",
+        "type": "comment",
+        "z": "59b47d7d6ec7f26b",
+        "name": "Web-API des reports abfragen",
+        "info": "",
+        "x": 550,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "547d793e54645146",
+        "type": "inject",
+        "z": "59b47d7d6ec7f26b",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{}",
+        "payloadType": "json",
+        "x": 90,
+        "y": 180,
+        "wires": [
+            [
+                "c8d6e06fc84b73ca"
+            ]
+        ]
+    },
+    {
+        "id": "5035804fa0da6fe4",
+        "type": "json",
+        "z": "59b47d7d6ec7f26b",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 90,
+        "y": 920,
+        "wires": [
+            [
+                "0c3f23223106bcf1",
+                "222e1011f577c0cb"
+            ]
+        ]
+    },
+    {
+        "id": "0c3f23223106bcf1",
+        "type": "debug",
+        "z": "59b47d7d6ec7f26b",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 250,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "cdf41348e0e006f6",
+        "type": "file",
+        "z": "59b47d7d6ec7f26b",
+        "name": "",
+        "filename": "C:\\Users\\denni\\Desktop\\daten.json",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 920,
+        "y": 920,
+        "wires": [
+            [
+                "65b27c63fbe25578"
+            ]
+        ]
+    },
+    {
+        "id": "40044deda12e0827",
+        "type": "file",
+        "z": "59b47d7d6ec7f26b",
+        "name": "",
+        "filename": "C:\\Users\\denni\\Desktop\\rüsten2.csv",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "true",
+        "encoding": "utf8",
+        "x": 890,
+        "y": 460,
+        "wires": [
+            [
+                "07516d0059614113"
+            ]
+        ]
+    },
+    {
+        "id": "c5aa2e9dfb78f6cf",
+        "type": "csv",
+        "z": "59b47d7d6ec7f26b",
+        "name": "",
+        "sep": ",",
+        "hdrin": false,
+        "hdrout": "none",
+        "multi": "one",
+        "ret": "\\r\\n",
+        "temp": "\"offset\", \"count\", \"limit\", \"total\", \"lastIdentifier\", \"firstIdentifier\", \"orderId\", \"operationId\", \"materialId\", \"phaseText\", \"statusText\", \"statusTime\", \"workplaceGroup\", \"workplaceId\", \"targetQuantity\", \"unit\", \"targetStartDate\", \"setupStartTs\", \"setupEndTs\", \"setupDuration\", \"persDuration\", \"realTimePerStrokeSec\", \"targetQuantity\", \"targetSetupTime\", \"targetStartDate\", \"phaseText\", \"statusMnemonic\", \"statusTime\", \"tbSetupDuration\", \"setupTimeDeviationAbs\", \"setupTimeDeviationRel\", \"setupRate\", \"priority\", \"unit\"",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 130,
+        "y": 660,
+        "wires": [
+            [
+                "dc7738fdab78cdf9"
+            ]
+        ]
+    },
+    {
+        "id": "f01e962d0cd1527c",
+        "type": "change",
+        "z": "59b47d7d6ec7f26b",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "\"'MEINTEST',\" &msg.payload.pagination.offset",
+                "tot": "jsonata"
+            },
+            {
+                "t": "set",
+                "p": "payload.col2.count",
+                "pt": "msg",
+                "to": "10000",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 590,
+        "y": 1040,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "dc7738fdab78cdf9",
+        "type": "change",
+        "z": "59b47d7d6ec7f26b",
+        "name": "Löschen unwichtiger Daten",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "payload.pagination",
+                "pt": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 360,
+        "y": 660,
+        "wires": [
+            [
+                "2f212acee371aa23"
+            ]
+        ]
+    },
+    {
+        "id": "4e44b9a85440c9fd",
+        "type": "change",
+        "z": "59b47d7d6ec7f26b",
+        "name": "Spaltenbezeichnungen aus Spaltenwert entfernen",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload.operationId",
+                "pt": "msg",
+                "from": "operationId:",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload.workplaceId",
+                "pt": "msg",
+                "from": "workplaceId:",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload.workplaceGroup",
+                "pt": "msg",
+                "from": "workplaceGroup:",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload.materialId",
+                "pt": "msg",
+                "from": "materialId:",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload.setupStartTs",
+                "pt": "msg",
+                "from": "setupStartTs:",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload.setupEndTs",
+                "pt": "msg",
+                "from": "setupEndTs:",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload.setupDuration",
+                "pt": "msg",
+                "from": "setupDuration:",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload.persDuration",
+                "pt": "msg",
+                "from": "persDuration:",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload.realTimePerStrokeSec",
+                "pt": "msg",
+                "from": "realTimePerStrokeSec:",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload.targetQuantity",
+                "pt": "msg",
+                "from": "targetQuantity:",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload.targetSetupTime",
+                "pt": "msg",
+                "from": "targetSetupTime:",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload.targetStartDate",
+                "pt": "msg",
+                "from": "targetStartDate:",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload.phaseText",
+                "pt": "msg",
+                "from": "phaseText:",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload.phaseMnemonic",
+                "pt": "msg",
+                "from": "phaseMnemonic:",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload.statusText",
+                "pt": "msg",
+                "from": "statusText:",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload.statusMnemonic",
+                "pt": "msg",
+                "from": "statusMnemonic:",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload.statusTime",
+                "pt": "msg",
+                "from": "statusTime:",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload.tbSetupDuration",
+                "pt": "msg",
+                "from": "tbSetupDuration:",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload.setupTimeDeviationAbs",
+                "pt": "msg",
+                "from": "setupTimeDeviationAbs:",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload.setupTimeDeviationRel",
+                "pt": "msg",
+                "from": "setupTimeDeviationRel:",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload.setupRate",
+                "pt": "msg",
+                "from": "setupRate:",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload.priority",
+                "pt": "msg",
+                "from": "priority:",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload.unit",
+                "pt": "msg",
+                "from": "unit:",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 970,
+        "y": 660,
+        "wires": [
+            [
+                "40044deda12e0827"
+            ]
+        ]
+    },
+    {
+        "id": "07516d0059614113",
+        "type": "debug",
+        "z": "59b47d7d6ec7f26b",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1150,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "a78a2de064b025a0",
+        "type": "change",
+        "z": "59b47d7d6ec7f26b",
+        "name": "Spaltenbezeichnungen auf Deutsch",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload.orderId",
+                "pt": "msg",
+                "to": "payload.BestellNr",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload.operationId",
+                "pt": "msg",
+                "to": "payload.VorgangsNr",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload.workplaceId",
+                "pt": "msg",
+                "to": "payload.ArbeitsplatzNr",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload.workplaceGroup",
+                "pt": "msg",
+                "to": "payload.ArbeitsplatzGruppe",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload.materialId",
+                "pt": "msg",
+                "to": "payload.MaterialNr",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload.setupStartTs",
+                "pt": "msg",
+                "to": "payload.Startzeit(Ruesten)",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload.setupEndTs",
+                "pt": "msg",
+                "to": "payload.Endzeit(Ruesten)",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload.setupDuration",
+                "pt": "msg",
+                "to": "payload.Ruestdauer",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload.persDuration",
+                "pt": "msg",
+                "to": "payload.Ruestgrad",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload.realTimePerStrokeSec",
+                "pt": "msg",
+                "to": "payload.ZeitproTakt",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload.targetQuantity",
+                "pt": "msg",
+                "to": "payload.Stueckzahl",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload.targetSetupTime",
+                "pt": "msg",
+                "to": "payload.RuestzeitStk",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload.targetStartDate",
+                "pt": "msg",
+                "to": "payload.RuestzeitStartDatum",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload.phaseText",
+                "pt": "msg",
+                "to": "payload.Statustext",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload.statusMnemonic",
+                "pt": "msg",
+                "to": "payload.StatusBezeichnung",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload.statusTime",
+                "pt": "msg",
+                "to": "payload.Statuszeit",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload.tbSetupDuration",
+                "pt": "msg",
+                "to": "payload.tbRuestzeit",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload.setupTimeDeviationAbs",
+                "pt": "msg",
+                "to": "payload.RuestzeitAbsolut",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload.setupTimeDeviationRel",
+                "pt": "msg",
+                "to": "payload.RuestzeitProzent",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload.setupRate",
+                "pt": "msg",
+                "to": "payload.Ruestrate",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload.priority",
+                "pt": "msg",
+                "to": "payload.Prioritaet",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload.unit",
+                "pt": "msg",
+                "to": "payload.Einheit",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1370,
+        "y": 660,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "30506fc3f869f921",
+        "type": "debug",
+        "z": "59b47d7d6ec7f26b",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1270,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "3257bee352f1f63d",
+        "type": "function",
+        "z": "59b47d7d6ec7f26b",
+        "name": "",
+        "func": "\nmsg.payload.zeit = new Date(msg.payload.setupEndTs - msg.payload.setupStartTs);\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1140,
+        "y": 820,
+        "wires": [
+            [
+                "30506fc3f869f921"
+            ]
+        ]
+    },
+    {
+        "id": "194c908a4bcc3749",
+        "type": "change",
+        "z": "59b47d7d6ec7f26b",
+        "name": "Löschen unwichtiger Daten",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "payload.pagination",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.offset",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.count",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.limit",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.total",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.lastIdentifier",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.firstIdentifier",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "payload.properties",
+                "pt": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 340,
+        "y": 580,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a122696303d147df",
+        "type": "change",
+        "z": "59b47d7d6ec7f26b",
+        "name": "Löschen unwichtiger Daten",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "payload.pagination",
+                "pt": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 580,
+        "y": 920,
+        "wires": [
+            [
+                "cdf41348e0e006f6"
+            ]
+        ]
+    },
+    {
+        "id": "65b27c63fbe25578",
+        "type": "debug",
+        "z": "59b47d7d6ec7f26b",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1130,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "2f212acee371aa23",
+        "type": "change",
+        "z": "59b47d7d6ec7f26b",
+        "name": "Restl. Spalten formatieren",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload.orderId",
+                "pt": "msg",
+                "from": "_embedded:{AVODetailsRuesten-WSAPL-TT:[{properties:{orderId:",
+                "fromt": "str",
+                "to": "",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 620,
+        "y": 660,
+        "wires": [
+            [
+                "4e44b9a85440c9fd"
+            ]
+        ]
+    },
+    {
+        "id": "459d58e0a9a82b28",
+        "type": "change",
+        "z": "59b47d7d6ec7f26b",
+        "name": "Restl. Spalten formatieren",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][0].properties.orderID",
+                "pt": "msg",
+                "to": "payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][0].properties.BestellNr",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 580,
+        "y": 860,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "222e1011f577c0cb",
+        "type": "function",
+        "z": "59b47d7d6ec7f26b",
+        "name": "Spaltennamen auf Deutsch",
+        "func": "var i;\n\nfor (i = 0; i < 4; i++)\n{\nmsg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.BestellNr = msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.orderId;\ndelete msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.orderId;\n\nmsg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.VorgangsNr = msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.operationId;\ndelete msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.operationId;\n\nmsg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.MaterialNr = msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.materialId;\ndelete msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.materialId;\n\n//msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.PhasenText = msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.phaseText;\ndelete msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.phaseText;\n\nmsg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.Statustext = msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.statusText;\ndelete msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.statusText;\n\nmsg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.Statuszeit = msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.statusTime;\ndelete msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.statusTime;\n\nmsg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.Arbeitsplatzgruppe = msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.workplaceGroup;\ndelete msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.workplaceGroup;\n\nmsg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.ArbeitsplatzNr = msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.workplaceId;\ndelete msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.workplaceId;\n\nmsg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.Anzahl_Stuecke = msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.targetQuantity;\ndelete msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.targetQuantity;\n\nmsg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.Einheit = msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.unit;\ndelete msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.unit;\n\nmsg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.Startdatum = msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.targetStartDate;\ndelete msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.targetStartDate;\n\nmsg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.Rüstzeitanfang = msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.setupStartTs;\ndelete msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.setupStartTs;\n\nmsg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.Rüstzeitende = msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.setupEndTs;\ndelete msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.setupEndTs;\n\nmsg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.Rüstdauer = msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.setupDuration;\ndelete msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.setupDuration;\n\nmsg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.Echtzeit_pro_Takt_Sek = msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.realTimePerStrokeSec;\ndelete msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.realTimePerStrokeSec;\n\nmsg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.Soll_Rüstzeit = msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.targetSetupTime;\ndelete msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.targetSetupTime;\n\nmsg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.Soll_Rüstdauer = msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.tbSetupDuration;\ndelete msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.tbSetupDuration;\n\nmsg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.Soll_Ist_Abweichung = msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.setupTimeDeviationAbs;\ndelete msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.setupTimeDeviationAbs;\n\nmsg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.Soll_Ist_Abweichung_Prozent = msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.setupTimeDeviationRel;\ndelete msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.setupTimeDeviationRel;\n\nmsg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.Rüstzeitrate = msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.setupRate;\ndelete msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.setupRate;\n\nmsg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.Dauer = msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.persDuration;\ndelete msg.payload._embedded[\"AVODetailsRuesten-WSAPL-TT\"][i].properties.persDuration;\n}\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 920,
+        "wires": [
+            [
+                "a122696303d147df"
+            ]
+        ]
+    },
+    {
+        "id": "a4994f8fcc293235",
+        "type": "change",
+        "z": "59b47d7d6ec7f26b",
+        "name": "test",
+        "rules": [
+            {
+                "t": "set",
+                "p": "columns",
+                "pt": "msg",
+                "to": "eins, zwo, drei",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "columns & \"\\n\" & payload",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 510,
+        "y": 760,
+        "wires": [
+            []
+        ]
+    }
+]
